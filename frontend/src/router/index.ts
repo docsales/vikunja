@@ -469,6 +469,14 @@ const router = createRouter({
 				},
 			],
 		},
+		{
+			path: '/users',
+			name: 'docsales-admin.users',
+			component: () => import('@/views/docsalesAdmin/UsersView.vue'),
+			meta: {
+				requiresInstanceAdmin: true,
+			},
+		},
 	],
 })
 
@@ -569,6 +577,19 @@ router.beforeEach(async (to, from) => {
 		}
 		const isAdmin = authStore.info?.isAdmin === true
 		if (!featureOn || !isAdmin) {
+			return {name: 'not-found'}
+		}
+	}
+
+	// This fork's own /users panel - a genuine instance-admin check, but no
+	// PRO_FEATURE.ADMIN_PANEL license gate. See pkg/license/license.go.
+	if (to.meta?.requiresInstanceAdmin) {
+		const baseStore = useBaseStore()
+		await baseStore.appReady
+		if (authStore.info?.isAdmin === undefined) {
+			await authStore.refreshUserInfo()
+		}
+		if (authStore.info?.isAdmin !== true) {
 			return {name: 'not-found'}
 		}
 	}

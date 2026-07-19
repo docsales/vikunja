@@ -104,6 +104,12 @@
 					{{ $t('admin.title') }}
 				</DropdownItem>
 				<DropdownItem
+					v-if="authStore.info?.isAdmin"
+					:to="{ name: 'docsales-admin.users' }"
+				>
+					{{ $t('admin.labels.users') }}
+				</DropdownItem>
+				<DropdownItem
 					v-if="imprintUrl"
 					:href="imprintUrl"
 				>
