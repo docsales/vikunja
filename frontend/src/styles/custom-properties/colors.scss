@@ -294,20 +294,25 @@
 
   &.dark {
     @media screen {
-      // Light mode colours reversed for dark mode (same DocSales-pink hue as light mode)
-      --grey-900-hsl: 331, 20%, 98%;
+      // Light mode lightness steps reversed for dark mode, but saturation cut hard
+      // (roughly to a fifth of the light-mode ramp) at the same 331deg brand hue.
+      // The light-mode saturation values read fine as "tinted neutral" at HIGH
+      // lightness, but the Helmholtz-Kohlrausch effect makes the same saturation
+      // look much more colorful at LOW lightness — grey-50/grey-100 (the actual
+      // site background here) rendered as a saturated burgundy, not dark gray.
+      --grey-900-hsl: 331, 4%, 98%;
       --grey-900: hsl(var(--grey-900-hsl));
-      --grey-800: hsl(331, 14.3%, 95.9%);
-      --grey-700: hsl(331, 13%, 91%);
-      --grey-600: hsl(331, 12.2%, 83.9%);
-      --grey-500-hsl: 331, 10.6%, 64.9%;
+      --grey-800: hsl(331, 3%, 95.9%);
+      --grey-700: hsl(331, 3%, 91%);
+      --grey-600: hsl(331, 3%, 83.9%);
+      --grey-500-hsl: 331, 2%, 64.9%;
       --grey-500: hsl(var(--grey-500-hsl));
-      --grey-400: hsl(331, 8.9%, 46.1%);
-      --grey-300: hsl(331, 13.8%, 34.1%);
-      --grey-200: hsl(331, 19.1%, 26.7%);
-      --grey-100-hsl: 331, 27.9%, 16.9%;
+      --grey-400: hsl(331, 2%, 46.1%);
+      --grey-300: hsl(331, 3%, 34.1%);
+      --grey-200: hsl(331, 4%, 26.7%);
+      --grey-100-hsl: 331, 6%, 16.9%;
       --grey-100: hsl(var(--grey-100-hsl));
-      --grey-50-hsl: 331, 39.3%, 11%;
+      --grey-50-hsl: 331, 8%, 11%;
       --grey-50: hsl(var(--grey-50-hsl));
 
       // Dark grey looks better than black
