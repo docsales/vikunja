@@ -1,5 +1,5 @@
 export function setTitle(title : undefined | string) {
 	document.title = (typeof title === 'undefined' || title === '')
-		? 'Vikunja'
-		: `${title} | Vikunja`
+		? 'DocSales Tasks'
+		: `${title} | DocSales Tasks`
 }
