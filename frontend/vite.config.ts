@@ -170,8 +170,8 @@ function getBuildConfig(env: Record<string, string>) {
 				injectRegister: false,
 				useCredentials: true,
 				manifest: {
-					name: 'Vikunja',
-					short_name: 'Vikunja',
+					name: 'DocSales Tasks Management',
+					short_name: 'DocSales Tasks',
 					theme_color: '#d80e6f',
 					icons: [
 						{
