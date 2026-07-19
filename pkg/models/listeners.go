@@ -382,6 +382,18 @@ func registerEventsForAuditLogging() {
 			Metadata: map[string]any{"mode": e.Mode},
 		}
 	})
+	audit.RegisterEventForAudit(func(e *AdminUserTasksMigratedEvent) *audit.Entry {
+		return &audit.Entry{
+			Action: audit.ActionAdminUserTasksMigrated,
+			Actor:  auditActorFromUser(e.Doer),
+			Target: audit.UserTarget(e.From.ID),
+			Metadata: map[string]any{
+				"to_user_id":      e.To.ID,
+				"tasks_moved":     e.TasksMoved,
+				"assignees_moved": e.AssigneesMoved,
+			},
+		}
+	})
 	audit.RegisterEventForAudit(func(e *AdminProjectOwnerChangedEvent) *audit.Entry {
 		return &audit.Entry{
 			Action: audit.ActionAdminProjectOwnerChanged,

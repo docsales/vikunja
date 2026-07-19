@@ -80,6 +80,7 @@ import (
 	"code.vikunja.io/api/pkg/plugins"
 	apiv1 "code.vikunja.io/api/pkg/routes/api/v1"
 	adminapi "code.vikunja.io/api/pkg/routes/api/v1/admin"
+	"code.vikunja.io/api/pkg/routes/api/v1/docsalesadmin"
 	apiv2 "code.vikunja.io/api/pkg/routes/api/v2"
 	"code.vikunja.io/api/pkg/routes/caldav"
 	"code.vikunja.io/api/pkg/routes/feeds"
@@ -960,6 +961,19 @@ func registerAPIRoutes(a *echo.Group) {
 	admin.DELETE("/users/:id", adminapi.DeleteUser)
 	admin.GET("/projects", adminProjectListHandler.ReadAllWeb)
 	admin.PATCH("/projects/:id/owner", adminapi.PatchProjectOwner)
+
+	// docsales-admin mirrors a subset of /admin's user routes without the
+	// Vikunja Pro license gate above (RequireFeature(license.FeatureAdminPanel))
+	// - see pkg/license/license.go's note on that gate before extending this
+	// group. Still requires a genuine instance admin (RequireInstanceAdmin).
+	// Deliberately excludes admin.PATCH("/users/:id/admin"): granting/revoking
+	// instance-admin privileges stays on the licensed path.
+	docsalesAdmin := a.Group("/docsales-admin", RequireInstanceAdmin())
+	docsalesAdmin.GET("/users", adminUserListHandler.ReadAllWeb)
+	docsalesAdmin.POST("/users", adminapi.CreateUser)
+	docsalesAdmin.PATCH("/users/:id/status", adminapi.PatchStatus)
+	docsalesAdmin.DELETE("/users/:id", adminapi.DeleteUser)
+	docsalesAdmin.POST("/users/:from/migrate-to/:to", docsalesadmin.MigrateUserTasks)
 
 	// Plugin routes
 	if config.PluginsEnabled.GetBool() {
