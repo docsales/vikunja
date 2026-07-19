@@ -11,6 +11,10 @@ The project consists of:
 - `desktop/` – Electron wrapper application
 - `docs/` – Documentation website
 
+## Fork Notes
+
+If you're working in `docsales/vikunja` (a fork of this repo), read `FORK.md` at the repo root before making changes — it covers what's fork-only vs. upstream-able and how DocSales customizations are organized.
+
 ## API Version Policy — new work goes to /api/v2
 
 **`/api/v1` is effectively deprecated and frozen.** It still runs and is fully supported for existing clients, but it should not grow.
