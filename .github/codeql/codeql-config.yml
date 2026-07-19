@@ -1,0 +1,13 @@
+name: "CodeQL config"
+
+paths-ignore:
+  - "**/node_modules/**"
+  - "frontend/dist/**"
+  - "frontend/dist-dev/**"
+  - "desktop/dist/**"
+  - "desktop/frontend/**"
+  - "**/*.min.js"
+  - "pkg/swagger/**"
+  - "pkg/static/templates_vfsdata.go"
+  - "frontend/src/i18n/lang/**"
+  - "pkg/i18n/lang/**"
