@@ -1,0 +1,35 @@
+{
+  "$schema": "../.claude/skills/16-eyes/assets/config.schema.json",
+  "version": 1,
+  "depth": "thorough",
+  "language": "en",
+  "excludePatterns": [
+    "node_modules/**",
+    "dist/**",
+    "build/**",
+    "vendor/**",
+    "**/*.min.js",
+    "**/fixtures/**",
+    "**/__snapshots__/**",
+    "pkg/swagger/**",
+    "pkg/static/templates_vfsdata.go"
+  ],
+  "output": {
+    "dir": ".",
+    "markdownPattern": "SECURITY_AUDIT_{date}.md",
+    "jsonPattern": "SECURITY_AUDIT_{date}.json",
+    "gitignoreReports": true
+  },
+  "lastRunPointer": ".16-eyes/last-run.json",
+  "lastDiffRunPointer": ".16-eyes/last-diff-run.json",
+  "lensesPointer": ".16-eyes/lenses.json",
+  "gates": {
+    "workspaces": [
+      { "path": ".", "test": "mage test:feature", "lint": "mage lint", "build": "mage build" },
+      { "path": "frontend", "test": "pnpm test:unit", "lint": "pnpm lint", "typecheck": "pnpm typecheck", "build": "pnpm build" },
+      { "path": "veans", "test": "mage test", "lint": "mage lint" }
+    ]
+  },
+  "adversarial": { "votesPerFinding": 3 },
+  "ci": { "enabled": false, "failOn": "none", "commentOnPr": true }
+}
