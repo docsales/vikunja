@@ -172,7 +172,7 @@ function getBuildConfig(env: Record<string, string>) {
 				manifest: {
 					name: 'Vikunja',
 					short_name: 'Vikunja',
-					theme_color: '#1973ff',
+					theme_color: '#d80e6f',
 					icons: [
 						{
 							src: './images/icons/android-chrome-192x192.png',
@@ -193,7 +193,7 @@ function getBuildConfig(env: Record<string, string>) {
 					],
 					start_url: '.',
 					display: 'standalone',
-					background_color: '#000000',
+					background_color: '#121830',
 					shortcuts: [
 						{
 							name: 'Overview',

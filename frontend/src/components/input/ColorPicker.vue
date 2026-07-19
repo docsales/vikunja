@@ -74,6 +74,7 @@ import XButton from '@/components/input/Button.vue'
 const model = defineModel<string>({ required: true })
 
 const DEFAULT_COLORS = [
+	'#e60f76', // DocSales brand pink
 	'#1973ff',
 	'#7F23FF',
 	'#ff4136',

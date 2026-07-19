@@ -91,9 +91,65 @@ onBeforeUnmount(() => {
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .vue-notification {
 	z-index: 9999;
 }
 
+// This library ships no default stylesheet of its own; the markup above (rendered via
+// the #body slot) was previously completely unstyled — success/error feedback had no
+// visual distinction at all. Semantic color + a full border/background wash (never a
+// side-stripe) + a leading dot on the title, matching the rest of the app's tokens.
+.vue-notification-template {
+	background: var(--scheme-main);
+	color: var(--text);
+	border: 1px solid var(--grey-200);
+	border-radius: $radius;
+	box-shadow: var(--shadow-md);
+	padding: .75rem 1rem;
+	margin-block-end: .5rem;
+	max-inline-size: 22rem;
+	cursor: pointer;
+
+	&.success {
+		border-color: hsla(var(--success-h), var(--success-s), var(--success-l), 0.35);
+		background: hsla(var(--success-h), var(--success-s), var(--success-l), 0.08);
+
+		.notification-title {
+			color: var(--success-text);
+		}
+	}
+
+	&.error {
+		border-color: hsla(var(--danger-h), var(--danger-s), var(--danger-l), 0.35);
+		background: hsla(var(--danger-h), var(--danger-s), var(--danger-l), 0.08);
+
+		.notification-title {
+			color: var(--danger-text);
+		}
+	}
+}
+
+.notification-title {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+	font-weight: 700;
+	color: var(--text-strong);
+
+	&::before {
+		content: '';
+		inline-size: .5rem;
+		block-size: .5rem;
+		flex-shrink: 0;
+		border-radius: 50%;
+		background: currentColor;
+	}
+}
+
+.notification-content {
+	margin-block-start: .25rem;
+	font-size: .9rem;
+	color: var(--text);
+}
 </style>

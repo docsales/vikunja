@@ -107,9 +107,9 @@ Most colors are declared as HSL *components* — separate `-h`, `-s`, `-l`, `-a`
 properties — plus a composed `hsla()` value:
 
 ```scss
---primary-h: 217deg;
---primary-s: 98%;
---primary-l: 53%;
+--primary-h: 331deg;
+--primary-s: 88%;
+--primary-l: 45%;
 --primary-a: 1;
 --primary-hsl: var(--primary-h), var(--primary-s), var(--primary-l);
 --primary: hsla(var(--primary-h), var(--primary-s), var(--primary-l), var(--primary-a));
@@ -122,8 +122,11 @@ same color without redefining it:
 box-shadow: 0 0 0 2px hsla(var(--primary-hsl), 0.5);
 ```
 
-Dark mode then tweaks only `--primary-l` (to `58%`) to keep sufficient contrast — the
-composed `--primary` re-derives automatically.
+Dark mode then tweaks only `--primary-l` (to `55%`) to keep sufficient contrast — the
+composed `--primary` re-derives automatically. `--primary` is DocSales' brand pink
+(hue/saturation match `--brand-pink`, the exact logo swatch; lightness is nudged so it
+clears WCAG AA as text/link color — see the comments next to `--primary-h` in
+`custom-properties/colors.scss` for the exact contrast numbers).
 
 ### Grey scale
 

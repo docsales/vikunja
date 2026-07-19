@@ -624,7 +624,9 @@ function focus() {
 }
 
 .create-icon {
-	color: var(--success);
+	// --success-text, not raw --success: the saturated light green is close to
+	// unreadable against a light background (1.86:1; --success-text hits 4.78:1).
+	color: var(--success-text);
 	margin-inline-end: .25rem;
 	font-size: .75rem;
 }
