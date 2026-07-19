@@ -102,6 +102,8 @@ func Restore(table string, contents []map[string]interface{}) (err error) {
 
 	if Type() == schemas.POSTGRES {
 		idSequence := table + "_id_seq"
+		// table was already checked against validTableName above, so it is safe to
+		// interpolate here; identifiers cannot be passed as bound SQL parameters.
 		_, err = x.Query(`SELECT setval('"` + idSequence + `"', COALESCE((SELECT MAX(id) FROM "` + table + `"), 1))`)
 		if err != nil {
 			log.Warningf("Could not reset id sequence for %s: %s", idSequence, err)
@@ -122,6 +124,8 @@ func RestoreAndTruncate(table string, contents []map[string]interface{}) (err er
 		return err
 	}
 
+	// table was already checked against validTableName above, so it is safe to
+	// interpolate here; identifiers cannot be passed as bound SQL parameters.
 	if x.Dialect().URI().DBType == schemas.SQLITE {
 		if _, err := x.Query(`DELETE FROM "` + table + `"`); err != nil {
 			return err

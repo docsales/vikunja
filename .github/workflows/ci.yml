@@ -12,6 +12,14 @@ on:
     branches:
       - main
 
+# Least-privilege default for the GITHUB_TOKEN. test.yml's jobs only check
+# out code, build, and exchange workflow artifacts, so contents: read
+# covers the whole reusable workflow. release.yml needs more (it pushes
+# Docker images and creates GitHub releases), so that job overrides this
+# below with exactly what it needs.
+permissions:
+  contents: read
+
 concurrency:
   # main merges use a unique run_id so they don't cancel each other
   # other branches or PRs share a group to auto-cancel old runs
@@ -32,4 +40,12 @@ jobs:
     uses: ./.github/workflows/release.yml
     needs:
       - test
+    # release.yml's docker job pushes images to ghcr.io using secrets.GITHUB_TOKEN
+    # (packages: write), and its generate-swagger-docs / create-release jobs push
+    # commits and create a GitHub release (contents: write). Job-level permissions
+    # inside the called workflow can only narrow this ceiling, never exceed it, so
+    # both scopes must be granted here.
+    permissions:
+      contents: write
+      packages: write
     secrets: inherit

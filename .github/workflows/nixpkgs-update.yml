@@ -5,6 +5,12 @@ on:
     types: [published]
   workflow_dispatch:
 
+# The only job in this file never uses the default GITHUB_TOKEN: it doesn't
+# check out this repo, and all git/gh operations against the nixpkgs fork
+# and NixOS/nixpkgs authenticate explicitly with secrets.NIXPKGS_TOKEN.
+# So the default token needs no permissions at all.
+permissions: {}
+
 jobs:
   update-nixpkgs:
     if: >-

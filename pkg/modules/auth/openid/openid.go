@@ -620,7 +620,8 @@ func exchangeOidcTokens(cb *Callback, providerKey string) (*Provider, *oauth2.To
 	// Extract the ID Token from OAuth2 token.
 	rawIDToken, ok := oauth2Token.Extra("id_token").(string)
 	if !ok {
-		log.Debugf("Could not get id_token, raw token is %v", oauth2Token)
+		// Do not log oauth2Token itself: %v would print AccessToken/RefreshToken in clear text.
+		log.Debugf("Could not get id_token: response did not contain an id_token extra field (token_type=%s)", oauth2Token.TokenType)
 		return nil, nil, nil, "", &models.ErrOpenIDBadRequest{Message: "Missing token"}
 	}
 

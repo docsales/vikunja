@@ -3,6 +3,15 @@ name: Test
 on:
   workflow_call:
 
+# Least-privilege default for the whole reusable workflow: every job here
+# only checks out code, builds/tests, and uploads/downloads build artifacts
+# (artifact upload/download authenticates via the runtime token, not
+# GITHUB_TOKEN, so it needs no extra scope here). None of these jobs
+# comment on PRs/issues, push packages, create releases, or use OIDC, so
+# no job needs a broader override.
+permissions:
+  contents: read
+
 jobs:
   mage:
     runs-on: ubuntu-latest

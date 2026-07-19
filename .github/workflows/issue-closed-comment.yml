@@ -4,6 +4,8 @@ on:
   issues:
     types: [closed]
 
+permissions: {}
+
 jobs:
   comment-on-issue-closure:
     if: github.repository == 'go-vikunja/vikunja'
