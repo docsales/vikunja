@@ -46,7 +46,7 @@
 			"confirmEmailSuccess": "Você confirmou com sucesso seu e-mail! Você pode fazer o login agora.",
 			"totpTitle": "Código de Autenticação de Dois Fatores",
 			"totpPlaceholder": "ex. 123456",
-			"login": "Acessar o DocSales Tasks Management",
+			"login": "Faça o login",
 			"createAccount": "Criar conta",
 			"loginWith": "Faça o login com {provider}",
 			"authenticating": "Autenticando…",
