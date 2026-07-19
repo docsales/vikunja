@@ -8,6 +8,7 @@ paths-ignore:
   - "desktop/frontend/**"
   - "**/*.min.js"
   - "pkg/swagger/**"
+  - "pkg/routes/api/v2/scalar/**" # vendored third-party API-docs UI, not our code
   - "pkg/static/templates_vfsdata.go"
   - "frontend/src/i18n/lang/**"
   - "pkg/i18n/lang/**"
