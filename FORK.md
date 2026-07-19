@@ -16,6 +16,10 @@ When DocSales needs something branded or customized (app name, login screen imag
 - If the option doesn't exist yet (a custom app name string, a custom login background image), the better fix is to add it as a real, generic Vikunja config option — not to hardcode "DocSales Tasks Management" into a component. The generic plumbing is upstream-able; the actual DocSales-flavored values (logo URL, name string, brand colors) live only in this fork's Railway environment variables / `config.yml`, never in committed code.
 - This keeps future upstream merges low-conflict (upstream doesn't touch config keys we added, and if it does it's an additive conflict, not a "whose branding wins" conflict) and makes the customization portable — changing a brand value later is an env var change, not a redeploy-from-source.
 
+## Git workflow: always a PR
+
+**Every change to this fork goes through a branch + pull request, merged into `main` — never a direct push to `main`, including infra fixes, CI/build breakage, and other "urgent" changes.** A broken deploy pipeline is not an exception: open the PR and merge it immediately rather than pushing straight to `main`. This applies regardless of who or what is making the change.
+
 ## Merging from upstream
 
 Merge, don't reset/overwrite. `git merge upstream/main` (or a PR from `go-vikunja/vikunja`'s `main` into this fork's `main`) preserves both histories; conflicts, if upstream touches a file this fork has patched, need manual resolution — nothing is silently lost.
