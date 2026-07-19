@@ -1,60 +1,35 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useNow } from '@vueuse/core'
-import { useAuthStore } from '@/stores/auth'
-import { useConfigStore } from '@/stores/config'
-import { useColorScheme } from '@/composables/useColorScheme'
-
-import LogoFull from '@/assets/logo-full.svg?component'
-import LogoFullPride from '@/assets/logo-full-pride.svg?component'
-import {MILLISECONDS_A_HOUR} from '@/constants/date'
-
-const now = useNow({
-	interval: MILLISECONDS_A_HOUR,
-})
-
-const authStore = useAuthStore()
-const configStore = useConfigStore()
-const { isDark } = useColorScheme()
-
-const Logo = computed(() => configStore.allowIconChanges
-	&& authStore.settings.frontendSettings.allowIconChanges
-	&& now.value.getMonth() === 5
-	? LogoFullPride
-	: LogoFull)
-
-const CustomLogo = computed(() => {
-	const lightLogo = window.CUSTOM_LOGO_URL
-	const darkLogo = window.CUSTOM_LOGO_URL_DARK
-
-	if (!lightLogo && !darkLogo) return ''
-	if (!darkLogo) return lightLogo
-	if (!lightLogo) return darkLogo
-
-	return isDark.value ? darkLogo : lightLogo
-})
+import DocSalesLogo from '@/assets/logo-docsales.png'
 </script>
 
 <template>
-	<div>
-		<Logo
-			v-if="!CustomLogo"
-			alt="Vikunja"
-			class="logo"
-		/>
+	<div class="docsales-brand">
 		<img
-			v-show="CustomLogo"
-			:src="CustomLogo"
-			alt="Vikunja"
+			:src="DocSalesLogo"
+			alt="DocSales"
 			class="logo"
 		>
+		<span class="app-name">DocSales Tasks Management</span>
 	</div>
 </template>
 
 <style lang="scss" scoped>
+.docsales-brand {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
 .logo {
+	inline-size: 48px;
+	block-size: 48px;
+	border-radius: 10px;
+}
+
+.app-name {
 	color: var(--logo-text-color);
-	max-inline-size: 168px;
-	max-block-size: 48px;
+	font-size: 1.25rem;
+	font-weight: 700;
+	line-height: 1.2;
 }
 </style>
