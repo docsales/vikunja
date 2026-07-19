@@ -527,6 +527,22 @@ func (e *AdminUserDeletedEvent) Name() string {
 	return "admin.user.deleted"
 }
 
+// AdminUserTasksMigratedEvent represents every task created by or assigned to
+// one user being reassigned to another (e.g. merging a duplicate OIDC signup
+// into the account that holds the task history).
+type AdminUserTasksMigratedEvent struct {
+	From           *user.User `json:"from"`
+	To             *user.User `json:"to"`
+	Doer           *user.User `json:"doer"`
+	TasksMoved     int64      `json:"tasks_moved"`
+	AssigneesMoved int64      `json:"assignees_moved"`
+}
+
+// Name defines the name for AdminUserTasksMigratedEvent
+func (e *AdminUserTasksMigratedEvent) Name() string {
+	return "admin.user.tasks.migrated"
+}
+
 // AdminProjectOwnerChangedEvent represents an admin reassigning a project's owner
 type AdminProjectOwnerChangedEvent struct {
 	Project    *Project   `json:"project"`
