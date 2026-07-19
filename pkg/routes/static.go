@@ -234,10 +234,19 @@ func getMimeType(name string, file io.ReadSeeker) (mineType string, err error) {
 }
 
 func getCacheControlHeader(info os.FileInfo, file io.ReadSeeker) (header string, err error) {
-	// Don't cache service worker and related files
+	// Don't cache service worker and related files, or the brand icons -
+	// unlike Vite's hashed asset filenames, these live at stable paths and
+	// can legitimately change content (e.g. a rebrand) without a new URL.
 	if info.Name() == "robots.txt" ||
 		info.Name() == "sw.js" ||
-		info.Name() == "manifest.webmanifest" {
+		info.Name() == "manifest.webmanifest" ||
+		info.Name() == "favicon.ico" ||
+		info.Name() == "icon-maskable.png" ||
+		strings.HasPrefix(info.Name(), "favicon-") ||
+		strings.HasPrefix(info.Name(), "apple-touch-icon") ||
+		strings.HasPrefix(info.Name(), "android-chrome-") ||
+		strings.HasPrefix(info.Name(), "msapplication-icon") ||
+		strings.HasPrefix(info.Name(), "mstile-") {
 		return cacheControlNone, nil
 	}
 
