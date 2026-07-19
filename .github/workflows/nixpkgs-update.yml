@@ -8,9 +8,10 @@ on:
 jobs:
   update-nixpkgs:
     if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event.release.prerelease == false &&
-       startsWith(github.event.release.tag_name, 'v'))
+      github.repository == 'go-vikunja/vikunja' &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event.release.prerelease == false &&
+        startsWith(github.event.release.tag_name, 'v')))
     runs-on: ubuntu-latest
     steps:
       - name: Install Nix

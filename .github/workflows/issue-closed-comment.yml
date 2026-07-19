@@ -6,6 +6,7 @@ on:
 
 jobs:
   comment-on-issue-closure:
+    if: github.repository == 'go-vikunja/vikunja'
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub App token
