@@ -28,7 +28,7 @@ jobs:
 
   release:
     name: Release
-    if: ${{ github.ref_type == 'tag' || github.ref_name == 'main' }}
+    if: ${{ (github.ref_type == 'tag' || github.ref_name == 'main') && github.repository == 'go-vikunja/vikunja' }}
     uses: ./.github/workflows/release.yml
     needs:
       - test
