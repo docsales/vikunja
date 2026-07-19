@@ -14,20 +14,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package utils
+package migration
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
+	"fmt"
+
+	"src.techknowlogick.com/xormigrate"
+	"xorm.io/xorm"
 )
 
-// Sha256Hex returns the full hex-encoded SHA-256 hash of a string.
-func Sha256Hex(cleartext string) string {
-	h := sha256.Sum256([]byte(cleartext))
-	return hex.EncodeToString(h[:])
-}
-
-// Sha256 calculates a sha256 hash from a string, truncated to 45 characters.
-func Sha256(cleartext string) string {
-	return Sha256Hex(cleartext)[:45]
+func init() {
+	migrations = append(migrations, &xormigrate.Migration{
+		ID:          "20260719145922",
+		Description: "Clear plaintext password-reset, email-confirm and account-deletion tokens; they sat unhashed in the db and must be treated as exposed.",
+		Migrate: func(tx *xorm.Engine) error {
+			if _, err := tx.Exec("DELETE FROM user_tokens WHERE kind IN (1, 2, 3)"); err != nil {
+				return fmt.Errorf("could not clear plaintext user tokens: %w", err)
+			}
+			return nil
+		},
+		Rollback: func(tx *xorm.Engine) error {
+			return nil
+		},
+	})
 }

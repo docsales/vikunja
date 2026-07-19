@@ -362,6 +362,11 @@
       // The lighter dark-mode primary fails white-text contrast on the active view tab, so darken it there
       --switch-view-active-background: hsl(var(--primary-h), var(--primary-s), 50%);
 
+      // Muted text is a light grey on dark backgrounds and already passes; keep it
+      --text-muted: var(--grey-500);
+      // The lighter dark-mode primary fails white-text contrast on the active view tab, so darken it there
+      --switch-view-active-background: hsl(var(--primary-h), var(--primary-s), 50%);
+
       // Bright values already pass contrast on dark backgrounds; skip the light-theme darkening
       --danger-text: var(--danger);
       --success-text: var(--success);

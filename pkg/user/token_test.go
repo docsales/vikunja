@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package models
+package user
 
 import (
 	"testing"
@@ -25,58 +25,48 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestRepairOrphanedProjects(t *testing.T) {
-	t.Run("finds and repairs orphaned projects", func(t *testing.T) {
+func TestUserTokenHashing(t *testing.T) {
+	t.Run("stores only a hash", func(t *testing.T) {
 		db.LoadAndAssertFixtures(t)
 		s := db.NewSession()
 		defer s.Close()
 
-		result, err := RepairOrphanedProjects(s, false)
+		token, err := generateToken(s, &User{ID: 1}, TokenPasswordReset)
 		require.NoError(t, err)
+		require.NoError(t, s.Commit())
 
-		assert.Equal(t, 1, result.Repaired)
+		assert.NotEmpty(t, token.ClearTextToken)
+		assert.NotEqual(t, token.ClearTextToken, token.Token)
+		assert.Regexp(t, "^[0-9a-f]{64}$", token.Token)
 
-		// Verify the project was re-parented to top level
-		project := &Project{ID: 39}
-		has, err := s.Get(project)
-		require.NoError(t, err)
-		assert.True(t, has)
-		assert.Equal(t, int64(0), project.parentID())
+		db.AssertExists(t, "user_tokens", map[string]interface{}{
+			"id":    token.ID,
+			"token": token.Token,
+		}, false)
+		db.AssertMissing(t, "user_tokens", map[string]interface{}{
+			"token": token.ClearTextToken,
+		})
 	})
-
-	t.Run("dry run does not modify anything", func(t *testing.T) {
+	t.Run("raw token round-trips", func(t *testing.T) {
 		db.LoadAndAssertFixtures(t)
 		s := db.NewSession()
 		defer s.Close()
 
-		result, err := RepairOrphanedProjects(s, true)
+		created, err := generateToken(s, &User{ID: 1}, TokenPasswordReset)
 		require.NoError(t, err)
 
-		assert.Equal(t, 1, result.Found)
-		assert.Equal(t, 0, result.Repaired)
-
-		// Verify the project was NOT changed
-		project := &Project{ID: 39}
-		has, err := s.Get(project)
+		got, err := getToken(s, created.ClearTextToken, TokenPasswordReset)
 		require.NoError(t, err)
-		assert.True(t, has)
-		assert.Equal(t, int64(999999), project.parentID())
+		require.NotNil(t, got)
+		assert.Equal(t, created.ID, got.ID)
 	})
-
-	t.Run("no orphans returns zero counts", func(t *testing.T) {
+	t.Run("wrong token fails", func(t *testing.T) {
 		db.LoadAndAssertFixtures(t)
 		s := db.NewSession()
 		defer s.Close()
 
-		// First, repair all orphans
-		_, err := RepairOrphanedProjects(s, false)
+		got, err := getToken(s, "somethingelse", TokenPasswordReset)
 		require.NoError(t, err)
-
-		// Run again - should find nothing
-		result, err := RepairOrphanedProjects(s, false)
-		require.NoError(t, err)
-
-		assert.Equal(t, 0, result.Found)
-		assert.Equal(t, 0, result.Repaired)
+		assert.Nil(t, got)
 	})
 }
