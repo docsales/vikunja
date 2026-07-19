@@ -1593,7 +1593,14 @@
       "deleteModeScheduled": "Schedule deletion",
       "deleteModeScheduledHelp": "Schedule deletion sends the user a confirmation email, mirroring a self-initiated account deletion.",
       "deleteModeNow": "Delete now",
-      "deleteModeNowHelp": "Delete now removes the user and all their data immediately. This cannot be undone."
+      "deleteModeNowHelp": "Delete now removes the user and all their data immediately. This cannot be undone.",
+      "migrateTasks": "Migrate tasks",
+      "migrateTasksTitle": "Migrate {username}'s tasks",
+      "migrateHelp": "Every task {username} created or is assigned to will be reassigned to the selected user. This does not delete or deactivate {username}'s account.",
+      "migrateToLabel": "Move to user",
+      "migrateConfirm": "Move {from}'s tasks to {to}?",
+      "migrateSubmit": "Migrate tasks",
+      "migrateSuccess": "Moved {tasks} task(s) and {assignees} assignment(s) from {from} to {to}."
     },
     "projects": {
       "ownerLabel": "Owner",
