@@ -55,3 +55,7 @@ PLAN.md
 plans/
 /.crush/
 /.playwright-mcp
+
+# 16-eyes security audit reports (contain exploit scenarios - not for git history)
+/SECURITY_AUDIT_*.md
+/SECURITY_AUDIT_*.json
