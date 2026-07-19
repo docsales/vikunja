@@ -320,8 +320,8 @@ defineExpose({
 				transform: translateY(-50%);
 				inline-size: 1.2em;
 				block-size: 1.2em;
-				background-color: #3b82f6;
-				color: white;
+				background-color: var(--primary);
+				color: var(--white);
 				border-radius: 50%;
 				font-size: 0.8em;
 				display: flex;

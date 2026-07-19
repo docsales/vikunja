@@ -107,6 +107,10 @@
 
         &.router-link-exact-active {
           color: var(--primary);
+          // Full-row wash (not a border stripe) so the current page reads clearly
+          // in the sidebar, reinforcing the existing primary-colored text/icon.
+          background: hsla(var(--primary-hsl), 0.08);
+          border-radius: $radius;
         }
 
         .icon {
