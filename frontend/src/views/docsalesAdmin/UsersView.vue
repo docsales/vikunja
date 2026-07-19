@@ -570,7 +570,7 @@ onMounted(load)
 	list-style: none;
 	margin: 0 0 1rem;
 	padding: 0;
-	max-height: 12rem;
+	max-block-size: 12rem;
 	overflow-y: auto;
 
 	li + li {
