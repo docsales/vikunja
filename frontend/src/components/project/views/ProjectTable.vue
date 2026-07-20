@@ -498,6 +498,15 @@ const taskDetailRoutes = computed(() => Object.fromEntries(
 	.user {
 		margin: 0;
 	}
+
+	a {
+		color: var(--text);
+		transition: color ease $transition-duration;
+
+		&:hover {
+			color: var(--grey-900);
+		}
+	}
 }
 
 .columns-filter {

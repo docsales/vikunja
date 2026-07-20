@@ -379,8 +379,19 @@ async function find(query: string) {
 			if(props.shareType === 'user' && m.id === currentUserId.value) {
 				return false
 			}
-			
+
 			return typeof sharables.value.find(s => s.id === m.id) === 'undefined'
 		})
 }
 </script>
+
+<style lang="scss" scoped>
+.table a {
+	color: var(--text);
+	transition: color ease $transition-duration;
+
+	&:hover {
+		color: var(--grey-900);
+	}
+}
+</style>
