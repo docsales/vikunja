@@ -36,7 +36,12 @@ func init() {
 			return false
 		}
 
-		if govalidator.IsURL(i) {
+		// govalidator.IsURL flags any "word.word" string (it treats the dot as a
+		// plausible domain/TLD boundary), which rejects the ordinary
+		// firstname.lastname convention this instance already uses for real
+		// accounts (created via SSO, which bypasses this check entirely).
+		// Check for actual URL syntax instead: a scheme, or a bare "www." prefix.
+		if strings.Contains(i, "://") || strings.HasPrefix(strings.ToLower(i), "www.") {
 			return false
 		}
 
