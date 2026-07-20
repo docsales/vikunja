@@ -29,3 +29,17 @@ func TestLanguageValidatorAllowsEmptyString(t *testing.T) {
 	assert.True(t, validate(""), "an unspecified language should pass validation")
 	assert.False(t, validate("not-a-real-language"), "an unregistered, non-empty language code should still fail validation")
 }
+
+func TestUsernameValidatorAllowsDottedNames(t *testing.T) {
+	validate := govalidator.TagMap["username"]
+
+	assert.True(t, validate("gustavo.arnaldo"), "a firstname.lastname username should pass validation")
+	assert.True(t, validate("marcelo.medeiros"), "an existing dotted username convention should pass validation")
+	assert.True(t, validate("mauriciokigiela"), "a plain username without dots should still pass validation")
+
+	assert.False(t, validate("https://example.com"), "a string with a URL scheme should still fail validation")
+	assert.False(t, validate("www.example.com"), "a www.-prefixed string should still fail validation")
+	assert.False(t, validate("has space"), "a username with whitespace should still fail validation")
+	assert.False(t, validate("has,comma"), "a username with a comma should still fail validation")
+	assert.False(t, validate("link-share-42"), "the reserved link-share pattern should still fail validation")
+}
