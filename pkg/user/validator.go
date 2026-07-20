@@ -57,5 +57,13 @@ func init() {
 		return len([]byte(str)) <= 72
 	}
 
-	govalidator.TagMap["language"] = i18n.HasLanguage
+	govalidator.TagMap["language"] = func(lang string) bool {
+		// Empty means "not specified" and is left as-is by the caller, rather
+		// than a validation failure - the admin create-user form has no
+		// language field, so this tag would otherwise reject every request.
+		if lang == "" {
+			return true
+		}
+		return i18n.HasLanguage(lang)
+	}
 }
