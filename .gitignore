@@ -59,3 +59,6 @@ plans/
 # 16-eyes security audit reports (contain exploit scenarios - not for git history)
 /SECURITY_AUDIT_*.md
 /SECURITY_AUDIT_*.json
+
+__pycache__/
+*.pyc
