@@ -356,14 +356,37 @@ test.describe('Project View Kanban', () => {
 		await expect(page.locator('main h2')).toHaveCount(1)
 	})
 
-	test('Should not show task count by default when bucket has no limit', async ({authenticatedPage: page}) => {
+	test('Should show the task count by default when bucket has no limit', async ({authenticatedPage: page}) => {
 		await createTaskWithBuckets(buckets, 5)
 		await page.goto('/projects/1/4')
 
 		// Wait for buckets to load
 		await expect(page.locator('.kanban .bucket .title').filter({hasText: buckets[0].title})).toBeVisible()
 
-		// Verify the task count span is not visible when no limit is set
+		// Fork default: alwaysShowBucketTaskCount is on, so the count is
+		// visible even without a bucket limit - just the count, no slash.
+		const limitSpan = page.locator('.kanban .bucket .bucket-header span.limit').first()
+		await expect(limitSpan).toBeVisible()
+		await expect(limitSpan).toContainText('5')
+		await expect(limitSpan).not.toContainText('/')
+	})
+
+	test('Should hide the task count when the alwaysShowBucketTaskCount setting is disabled', async ({authenticatedPage: page, apiContext, userToken}) => {
+		await createTaskWithBuckets(buckets, 5)
+
+		// Turning the setting off per user still works on top of the fork's
+		// on-by-default.
+		await updateUserSettings(apiContext, userToken, {
+			frontendSettings: {
+				alwaysShowBucketTaskCount: false,
+			},
+		})
+
+		await page.goto('/projects/1/4')
+
+		// Wait for buckets to load
+		await expect(page.locator('.kanban .bucket .title').filter({hasText: buckets[0].title})).toBeVisible()
+
 		await expect(page.locator('.kanban .bucket .bucket-header span.limit').first()).not.toBeVisible()
 	})
 
