@@ -32,7 +32,10 @@ export default class UserSettingsModel extends AbstractModel<IUserSettings> impl
 		timeFormat: TIME_FORMAT.HOURS_24,
 		defaultTaskRelationType: RELATION_KIND.RELATED,
 		backgroundBrightness: null,
-		alwaysShowBucketTaskCount: false,
+		// Fork default: on. The team wants the per-column task count visible on
+		// kanban boards without each user having to find the toggle first;
+		// anyone can still turn it off under Settings > General.
+		alwaysShowBucketTaskCount: true,
 		showLastViewed: true,
 		sidebarWidth: null,
 		commentSortOrder: 'asc',

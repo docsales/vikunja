@@ -156,6 +156,10 @@ export const useAuthStore = defineStore('auth', () => {
 				timeFormat: TIME_FORMAT.HOURS_24,
 				defaultTaskRelationType: RELATION_KIND.RELATED,
 				backgroundBrightness: 100,
+				// Fork default: on (see models/userSettings.ts). This list is what
+				// actually applies for users whose stored settings don't have the
+				// key yet - without it the merged value would be undefined/falsy.
+				alwaysShowBucketTaskCount: true,
 				showLastViewed: true,
 				sidebarWidth: null,
 				commentSortOrder: 'asc',
